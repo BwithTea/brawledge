@@ -21,6 +21,20 @@ router.get('/', async (req, res) => {
     }
 })
 
+router.get('/rankings', async (req, res) => {
+    try {
+        const response = await axios.get('https://api.brawlstars.com/v1/rankings/global/players', {
+            headers: {
+                Authorization: `Bearer ${process.env.BS_API_KEY}`
+            }
+        })
+        res.json(response.data)
+    } catch (error) {
+        console.error(error.message)
+        res.status(500).json({ error: error.message })
+    }
+})
+
 router.get('/search', async (req, res) => {
     const name = req.query.name
     if (!name) {
